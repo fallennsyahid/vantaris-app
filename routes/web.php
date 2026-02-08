@@ -1,12 +1,24 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 use App\Enums\RolesEnum;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\AlatController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\KategoriController;
+use App\Http\Controllers\Admin\PeminjamanController;
+use App\Http\Controllers\Admin\LogAktifitasController;
+use App\Http\Controllers\Admin\PengembalianController;
+use App\Http\Controllers\Peminjam\AlatController as PeminjamAlatController;
+use App\Http\Controllers\Peminjam\PeminjamanController as PeminjamPeminjamanController;
+use App\Http\Controllers\Peminjam\PengembalianController as PeminjamPengembalianController;
+use App\Http\Controllers\Petugas\AlatController as PetugasAlatController;
+use App\Http\Controllers\Petugas\ApprovalPeminjamanController;
+use App\Http\Controllers\Petugas\ApprovalPengembalianController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 // Redirect /dashboard ke dashboard sesuai role
@@ -30,6 +42,13 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
         return view('admin.dashboard');
     })->name('dashboard');
 
+    Route::resource('/alat', AlatController::class);
+    Route::resource('/kategori', KategoriController::class);
+    Route::resource('/user', UserController::class);
+    Route::resource('/peminjaman', PeminjamanController::class);
+    Route::resource('/pengembalian', PengembalianController::class);
+    Route::resource('/log', LogAktifitasController::class);
+
     // Tambahkan routes admin lainnya di sini
 });
 
@@ -39,6 +58,10 @@ Route::middleware(['auth', 'role:petugas'])->prefix('petugas')->name('petugas.')
         return view('petugas.dashboard');
     })->name('dashboard');
 
+    Route::resource('/alat', PetugasAlatController::class);
+    Route::resource('/approve-peminjaman', ApprovalPeminjamanController::class);
+    Route::resource('/approve-pengembalian', ApprovalPengembalianController::class);
+
     // Tambahkan routes petugas lainnya di sini
 });
 
@@ -47,6 +70,10 @@ Route::middleware(['auth', 'role:peminjam'])->prefix('peminjam')->name('peminjam
     Route::get('/dashboard', function () {
         return view('peminjam.dashboard');
     })->name('dashboard');
+
+    Route::resource('/alat', PeminjamAlatController::class);
+    Route::resource('/peminjaman', PeminjamPeminjamanController::class);
+    Route::resource('/pengembalian', PeminjamPengembalianController::class);
 
     // Tambahkan routes peminjam lainnya di sini
 });

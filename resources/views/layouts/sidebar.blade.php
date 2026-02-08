@@ -1,25 +1,35 @@
 @php
-    $role = auth()->user()->role; // Sesuaikan dengan kolom role di database-mu
+    $role = auth()->user()->role->value; // Ambil value dari enum
 
     $allMenus = [
         'admin' => [
-            ['label' => 'Dashboard', 'route' => 'dashboard.index', 'icon' => 'fas fa-table-cells-large'],
-            ['label' => 'Jobs', 'route' => 'jobs.index', 'icon' => 'fas fa-briefcase'],
-            ['label' => 'CV', 'route' => 'cv.index', 'icon' => 'fas fa-file'],
-            ['label' => 'Partner', 'route' => 'partner.index', 'icon' => 'fas fa-handshake'],
-            ['label' => 'Partner Request', 'route' => 'partnerReq.index', 'icon' => 'fas fa-user-plus'],
-            ['label' => 'Employee', 'route' => 'employee.index', 'icon' => 'fas fa-user-tie'],
-            ['label' => 'Account', 'route' => 'account.index', 'icon' => 'fas fa-user-circle'],
+            ['label' => 'Dashboard', 'route' => 'admin.dashboard', 'icon' => 'fas fa-table-cells-large'],
+            ['label' => 'Manajemen Alat', 'route' => 'admin.alat.index', 'icon' => 'fas fa-briefcase'],
+            ['label' => 'Manajemen Kategori', 'route' => 'admin.kategori.index', 'icon' => 'fas fa-tags'],
+            ['label' => 'Akun Pengguna', 'route' => 'admin.user.index', 'icon' => 'fas fa-user-circle'],
+            ['label' => 'Data Peminjaman', 'route' => 'admin.peminjaman.index', 'icon' => 'fas fa-file-invoice'],
+            ['label' => 'Data Pengembalian', 'route' => 'admin.pengembalian.index', 'icon' => 'fas fa-rotate-left'],
+            ['label' => 'Log Aktifitas', 'route' => 'admin.log.index', 'icon' => 'fas fa-file-alt'],
         ],
         'petugas' => [
-            ['label' => 'Dashboard', 'route' => 'dashboard.index', 'icon' => 'fas fa-table-cells-large'],
-            ['label' => 'Jobs', 'route' => 'jobs.index', 'icon' => 'fas fa-briefcase'],
-            ['label' => 'Blog', 'route' => 'blogs.index', 'icon' => 'fas fa-newspaper'],
+            ['label' => 'Dashboard', 'route' => 'petugas.dashboard', 'icon' => 'fas fa-table-cells-large'],
+            ['label' => 'Daftar Alat', 'route' => 'petugas.alat.index', 'icon' => 'fas fa-briefcase'],
+            [
+                'label' => 'Menyetujui Peminjaman',
+                'route' => 'petugas.approve-peminjaman.index',
+                'icon' => 'fas fa-check-circle',
+            ],
+            [
+                'label' => 'Menyetujui Pengembalian',
+                'route' => 'petugas.approve-pengembalian.index',
+                'icon' => 'fas fa-undo-alt',
+            ],
         ],
         'peminjam' => [
-            ['label' => 'Dashboard', 'route' => 'dashboard.index', 'icon' => 'fas fa-table-cells-large'],
-            ['label' => 'Portfolio', 'route' => 'portfolios.index', 'icon' => 'fas fa-layer-group'],
-            ['label' => 'Faq', 'route' => 'faqs.index', 'icon' => 'fas fa-question-circle'],
+            ['label' => 'Dashboard', 'route' => 'peminjam.dashboard', 'icon' => 'fas fa-table-cells-large'],
+            ['label' => 'Daftar Alat', 'route' => 'peminjam.alat.index', 'icon' => 'fas fa-briefcase'],
+            ['label' => 'Pengajuan Peminjaman', 'route' => 'peminjam.peminjaman.index', 'icon' => 'fas fa-plus-circle'],
+            ['label' => 'Pengembalian', 'route' => 'peminjam.pengembalian.index', 'icon' => 'fas fa-undo-alt'],
         ],
     ];
 
@@ -67,15 +77,17 @@
             </a>
         @endforeach
 
-        <hr class="border-gray-200 my-4">
-        <form action="{{ route('logout') }}" method="POST" id="logout-form">
-            @csrf
-            <a href="javascript:void(0)" id="logout-btn"
-                class="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 group relative overflow-hidden bg-red-600 text-white hover:bg-red-600/80 shadow-lg hover:scale-105"
-                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <i class="fas fa-arrow-right-from-bracket"></i>
-                <span class="font-medium pl-2">Logout</span>
-            </a>
-        </form>
+        <div class="absolute bottom-4 w-full right-0">
+            <hr class="border-gray-200 my-4">
+            <form action="{{ route('logout') }}" method="POST" id="logout-form" class="px-6">
+                @csrf
+                <a href="javascript:void(0)" id="logout-btn"
+                    class="flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 group relative overflow-hidden bg-red-600 text-white hover:bg-red-600/80 shadow-lg hover:scale-105"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fas fa-arrow-right-from-bracket"></i>
+                    <span class="font-medium pl-2">Logout</span>
+                </a>
+            </form>
+        </div>
     </nav>
 </div>

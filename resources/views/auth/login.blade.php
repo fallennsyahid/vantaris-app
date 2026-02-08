@@ -55,19 +55,19 @@
             <form method="POST" action="{{ route('login') }}" class="space-y-6">
                 @csrf
 
-                <!-- Email -->
+                <!-- Email or Username -->
                 <div>
-                    <x-input-label for="email" :value="__('Email')" class="mb-2 sm:mb-3 text-sm sm:text-base" />
+                    <x-input-label for="login" :value="__('Email atau Username')" class="mb-2 sm:mb-3 text-sm sm:text-base" />
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <i class="fas fa-user text-text/50"></i>
                         </div>
-                        <x-text-input id="email"
+                        <x-text-input id="login"
                             class="block pl-10 pr-10 py-3 sm:py-4 text-lg text-text font-medium rounded-xl w-full border-2 border-text/50 focus:border-primary transition-colors duration-300"
-                            type="email" name="email" :value="old('email')" required autofocus autocomplete="username"
-                            placeholder="Masukkan email anda" />
+                            type="text" name="login" :value="old('login')" required autofocus autocomplete="username"
+                            placeholder="Masukkan email atau username anda" />
                     </div>
-                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('login')" class="mt-2" />
                 </div>
 
                 <!-- Password -->
@@ -106,11 +106,11 @@
 
                 <!-- Button -->
                 <div>
-                    <x-primary-button
-                        class="bg-linear-to-r from-primary to-secondary text-white flex items-center justify-center font-semibold text-lg sm:text-xl w-full py-3 sm:py-4 rounded-xl hover:from-secondary hover:to-primary transform hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out">
+                    <button type="submit"
+                        class="bg-linear-to-r from-primary to-secondary text-white flex items-center justify-center font-semibold text-lg sm:text-xl w-full py-3 sm:py-4 rounded-xl hover:from-secondary hover:to-primary transform hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out shadow-lg hover:shadow-xl">
                         <i class="fas fa-right-to-bracket mr-2"></i>
                         {{ __('Log in') }}
-                    </x-primary-button>
+                    </button>
                 </div>
             </form>
         </div>
