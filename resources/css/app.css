@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --color-primary: #4f46e5;
+    --color-secondary: #06b6d4;
+    --color-third: #8b5cf6;
+    --color-success: #10b981;
+    --color-warning: #f59e0b;
+    --color-danger: #ef4444;
+    --color-background: #f8fafc;
+    --color-text: #1e293b;
+    --color-heading: #0f172a;
+    --color-darkChoco: #3e2723;
+
+    --font-family-jakarta: "Plus Jakarta Sans", sans-serif;
+    --font-family-satoshi: "Satoshi", sans-serif;
+}
+
+html,
+body {
+    font-family: var(--font-family-satoshi);
+}
+
+/* Login Background Animation */
+.login-bg {
+    background: linear-gradient(
+        135deg,
+        rgba(79, 70, 229, 0.1) 0%,
+        rgba(6, 182, 212, 0.1) 50%,
+        rgba(139, 92, 246, 0.1) 100%
+    );
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
