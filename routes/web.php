@@ -5,17 +5,18 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AlatController;
-use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\PeminjamanController;
+use App\Http\Controllers\Admin\UserPetugasController;
 use App\Http\Controllers\Admin\LogAktifitasController;
 use App\Http\Controllers\Admin\PengembalianController;
+use App\Http\Controllers\Admin\UserPeminjamController;
+use App\Http\Controllers\Petugas\ApprovalPeminjamanController;
+use App\Http\Controllers\Petugas\ApprovalPengembalianController;
+use App\Http\Controllers\Petugas\AlatController as PetugasAlatController;
 use App\Http\Controllers\Peminjam\AlatController as PeminjamAlatController;
 use App\Http\Controllers\Peminjam\PeminjamanController as PeminjamPeminjamanController;
 use App\Http\Controllers\Peminjam\PengembalianController as PeminjamPengembalianController;
-use App\Http\Controllers\Petugas\AlatController as PetugasAlatController;
-use App\Http\Controllers\Petugas\ApprovalPeminjamanController;
-use App\Http\Controllers\Petugas\ApprovalPengembalianController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -44,7 +45,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     Route::resource('/alat', AlatController::class);
     Route::resource('/kategori', KategoriController::class);
-    Route::resource('/user', UserController::class);
+    Route::patch('/kategori/{kategori}/toggle-status', [KategoriController::class, 'toggleStatus'])->name('kategori.toggleStatus');
+    Route::resource('/user-petugas', UserPetugasController::class);
+    Route::patch('/user-peminjam/{id}/toggle-status', [UserPeminjamController::class, 'toggleStatus'])->name('user-peminjam.toggleStatus');
+    Route::resource('/user-peminjam', UserPeminjamController::class);
+    Route::patch('/user-petugas/{id}/toggle-status', [UserPetugasController::class, 'toggleStatus'])->name('user-petugas.toggleStatus');
     Route::resource('/peminjaman', PeminjamanController::class);
     Route::resource('/pengembalian', PengembalianController::class);
     Route::resource('/log', LogAktifitasController::class);

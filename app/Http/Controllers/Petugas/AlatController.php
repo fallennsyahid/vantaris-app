@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Petugas;
 
-use App\Http\Controllers\Controller;
+use App\Models\Alat;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class AlatController extends Controller
 {
@@ -12,7 +14,13 @@ class AlatController extends Controller
      */
     public function index()
     {
-        return view('petugas.alat.index');
+        $alats = Alat::with('kategori')->paginate(9);
+        $kategoris = Kategori::where('status', 'active')->get();
+        $totalAlat = Alat::count();
+        $alatTersedia = Alat::where('stok', '>', 0)->count();
+        $alatMenipis = Alat::where('stok', '<=', 5)->where('stok', '>', 0)->count();
+        $alatTidakTersedia = Alat::where('stok', '=', 0)->count();
+        return view('petugas.alat.index', compact('alats', 'kategoris', 'totalAlat', 'alatTersedia', 'alatMenipis', 'alatTidakTersedia'));
     }
 
     /**

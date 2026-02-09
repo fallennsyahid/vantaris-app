@@ -12,7 +12,13 @@ class Alat extends Model
         'kategori_id',
         'nama_alat',
         'stok',
+        'foto_alat',
     ];
+
+    public function getRouteKeyName()
+    {
+        return 'alat_id';
+    }
 
     protected static function boot()
     {

@@ -9,7 +9,15 @@
                     class="text-xl font-bold bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent uppercase">
                     {{ ucwords(str_replace(['.', 'index'], [' ', ''], Route::currentRouteName())) }}
                 </h2>
-                <p class="text-sm text-text font-lato">Manage your company profile content</p>
+                <p class="text-sm text-text font-lato">
+                    @if (Auth::user()->role === 'admin')
+                        Kelola Aplikasi Peminjaman Anda
+                    @elseif (Auth::user()->role === 'petugas')
+                        Kelola Arus Masuk dan Keluar Alat
+                    @else
+                        Ajukan Peminjaman Alat dengan Mudah
+                    @endif
+                </p>
             </div>
         </div>
 
