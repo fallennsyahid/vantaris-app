@@ -23,7 +23,7 @@ return new class extends Migration
             $table->boolean('is_tanggung_jawab_selesai')->default(true)->comment('False jika kondisi selain baik, True jika sudah diperbaiki/diganti');
             $table->timestamps();
 
-            $table->foreign('peminjaman_id')->references('peminjaman_id')->on('peminjaman')->onDelete('cascade');
+            $table->foreign('peminjaman_id')->references('peminjaman_id')->on('peminjamans')->onDelete('cascade');
             $table->foreign('received_by')->references('user_id')->on('users')->onDelete('cascade');
         });
     }

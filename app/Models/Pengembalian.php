@@ -7,6 +7,10 @@ use Illuminate\Support\Str;
 
 class Pengembalian extends Model
 {
+    protected $table = 'pengembalians';
+
+    protected $primaryKey = 'id';
+
     protected $fillable = [
         'pengembalian_id',
         'peminjaman_id',
@@ -17,6 +21,11 @@ class Pengembalian extends Model
         'is_tanggung_jawab_selesai',
     ];
 
+    protected $casts = [
+        'tanggal_kembali_sebenarnya' => 'datetime',
+        'is_tanggung_jawab_selesai' => 'boolean'
+    ];
+
     protected static function boot()
     {
         parent::boot();
@@ -24,6 +33,17 @@ class Pengembalian extends Model
     }
 
     public function petugas()
+    {
+        return $this->belongsTo(User::class, 'received_by', 'user_id');
+    }
+
+    public function peminjaman()
+    {
+        return $this->belongsTo(Peminjaman::class, 'peminjaman_id', 'peminjaman_id');
+    }
+
+    // Relasi ke Petugas yang menerima
+    public function penerima()
     {
         return $this->belongsTo(User::class, 'received_by', 'user_id');
     }

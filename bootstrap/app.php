@@ -14,6 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => \App\Http\Middleware\AuthMiddleware::class,
         ]);
+
+        // Add global middleware to check and auto-unblock users
+        $middleware->append(\App\Http\Middleware\CheckUserBlockStatus::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

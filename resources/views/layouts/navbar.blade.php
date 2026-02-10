@@ -34,7 +34,7 @@
                 <div class="p-2 rounded-lg hover:bg-text/25 cursor-pointer" id="profile-dropdown">
                     <div class="flex items-center gap-2">
                         @if (Auth::check())
-                            <img src="{{ Avatar::create(Auth::user()->nama_lengkap)->toBase64() }}"
+                            <img src="{{ Avatar::create(Auth::user()->nama_lengkap ?? (Auth::user()->name ?? 'User'))->toBase64() }}"
                                 alt="{{ Auth::user()->nama_lengkap ?? 'Guest' }}" class="rounded-full w-10 h-10">
                         @else
                             <div class="w-10 h-10 rounded-full bg-bg flex items-end justify-center overflow-hidden">
@@ -56,7 +56,7 @@
                     class="absolute top-16 right-0 min-w-72 bg-white rounded-lg border border-text/35 shadow-lg scale-y-0 origin-top transition-all duration-300 ease-in-out overflow-hidden">
                     <div class="flex items-center p-3 gap-4">
                         <div class="relative group w-14 h-14">
-                            <img src="{{ Avatar::create(Auth::user()->nama_lengkap)->toBase64() }}"
+                            <img src="{{ Avatar::create(Auth::user()->nama_lengkap ?? (Auth::user()->name ?? 'User'))->toBase64() }}"
                                 alt="{{ Auth::user()->nama_lengkap }}" class="rounded-full w-14 h-14 object-cover">
 
                             <div class="absolute inset-0 bg-black/50 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer"

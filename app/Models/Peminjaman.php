@@ -8,6 +8,9 @@ use Illuminate\Support\Str;
 class Peminjaman extends Model
 {
     protected $table = 'peminjamans';
+    protected $primaryKey = 'peminjaman_id';
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     protected $fillable = [
         'peminjaman_id',
@@ -21,6 +24,13 @@ class Peminjaman extends Model
         'status',
         'note',
         'qr_token'
+    ];
+
+    protected $casts = [
+        'tanggal_pengajuan' => 'datetime',
+        'tanggal_pengambilan_rencana' => 'datetime',
+        'tanggal_pengembalian_rencana' => 'datetime',
+        'tanggal_pengambilan_sebenarnya' => 'datetime',
     ];
 
     protected static function boot()
@@ -55,5 +65,11 @@ class Peminjaman extends Model
     public function pengembalian()
     {
         return $this->hasOne(Pengembalian::class, 'peminjaman_id', 'peminjaman_id');
+    }
+
+    // Accessor for kode_peminjaman (generate from peminjaman_id)
+    public function getKodePeminjamanAttribute()
+    {
+        return 'PJM-' . strtoupper(substr($this->peminjaman_id, 0, 8));
     }
 }

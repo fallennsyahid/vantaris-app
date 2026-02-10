@@ -48,7 +48,7 @@
                 Selamat Datang Kembali
             </h1>
             <p class="text-sm sm:text-base md:text-lg text-text text-center mb-6">
-                Masuk ke dashboard admin untuk mengelola website Anda
+                Masuk ke aplikasi dengan akun sudah terdaftar
             </p>
 
             <!-- Form -->

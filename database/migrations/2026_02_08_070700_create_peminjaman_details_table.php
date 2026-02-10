@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedInteger('jumlah');
             $table->timestamps();
 
-            $table->foreign('peminjaman_id')->references('peminjaman_id')->on('peminjaman')->onDelete('cascade');
+            $table->foreign('peminjaman_id')->references('peminjaman_id')->on('peminjamans')->onDelete('cascade');
             $table->foreign('alat_id')->references('alat_id')->on('alats')->onDelete('cascade');
         });
     }
