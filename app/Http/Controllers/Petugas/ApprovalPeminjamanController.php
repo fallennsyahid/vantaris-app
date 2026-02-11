@@ -9,6 +9,8 @@ use App\Models\Alat;
 use App\Enums\StatusPeminjaman;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Exports\PeminjamanExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ApprovalPeminjamanController extends Controller
 {
@@ -202,5 +204,36 @@ class ApprovalPeminjamanController extends Controller
                 'message' => 'Terjadi kesalahan: ' . $e->getMessage()
             ], 500);
         }
+    }
+
+    /**
+     * Export data peminjaman to Excel
+     */
+    public function export(Request $request)
+    {
+        // Validate date inputs if provided
+        $request->validate([
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'status' => 'nullable|string|in:all,pending,disetujui,ditolak,diambil,kembali,terlambat',
+        ]);
+
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
+        $status = $request->status ?? 'all';
+
+        // Generate filename with date range and status if provided
+        $filename = 'data-peminjaman';
+        if ($startDate && $endDate) {
+            $filename .= '-' . date('d-m-Y', strtotime($startDate)) . '-sd-' . date('d-m-Y', strtotime($endDate));
+        } else {
+            $filename .= '-' . date('d-m-Y');
+        }
+        if ($status !== 'all') {
+            $filename .= '-' . $status;
+        }
+        $filename .= '.xlsx';
+
+        return Excel::download(new PeminjamanExport($startDate, $endDate, $status), $filename);
     }
 }

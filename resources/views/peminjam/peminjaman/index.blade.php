@@ -7,11 +7,19 @@
                 <p class="text-text font-lato">Ajukan peminjaman alat di sini.</p>
             </div>
             <div>
-                <button type="button" id="open-modal"
-                    class="flex items-center gap-3 text-white font-medium px-6 py-3 rounded-lg bg-linear-to-r from-primary to-secondary cursor-pointer hover:from-secondary hover:to-primary shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
-                    <i class="fas fa-plus"></i>
-                    Ajukan Peminjaman Alat
-                </button>
+                @if (Auth::check() && Auth::user()->status_blokir)
+                    <button type="button" id="open-modal" disabled
+                        class="flex items-center gap-3 text-white font-medium px-6 py-3 rounded-lg bg-gray-600 cursor-not-allowed shadow-lg ">
+                        <i class="fas fa-plus"></i>
+                        Ajukan Peminjaman Alat
+                    </button>
+                @else
+                    <button type="button" id="open-modal"
+                        class="flex items-center gap-3 text-white font-medium px-6 py-3 rounded-lg bg-linear-to-r from-primary to-secondary cursor-pointer hover:from-secondary hover:to-primary shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
+                        <i class="fas fa-plus"></i>
+                        Ajukan Peminjaman Alat
+                    </button>
+                @endif
             </div>
         </div>
 

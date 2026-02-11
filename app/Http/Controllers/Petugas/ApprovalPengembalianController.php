@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Exports\PengembalianExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ApprovalPengembalianController extends Controller
 {
@@ -164,31 +166,74 @@ class ApprovalPengembalianController extends Controller
                 'is_tanggung_jawab_selesai' => $request->kondisi === 'baik' ? true : false,
             ]);
 
-            // Kembalikan stok alat
-            foreach ($peminjaman->details as $detail) {
-                $detail->alat->increment('stok', $detail->jumlah);
+            // Kembalikan stok alat HANYA jika kondisi baik atau rusak
+            // Jika hilang atau tidak_lengkap, stok TIDAK dikembalikan
+            if (in_array($request->kondisi, ['baik', 'rusak'])) {
+                foreach ($peminjaman->details as $detail) {
+                    $detail->alat->increment('stok', $detail->jumlah);
+                }
             }
 
-            // Auto-blokir jika terlambat
+            // Auto-blokir user
+            $user = $peminjaman->peminjam;
+            $blokirReason = '';
+            $blokirDays = 0;
+
+            // Blokir jika terlambat
             if ($isLate && $daysLate > 0) {
-                $user = $peminjaman->peminjam;
+                $blokirDays = $daysLate;
+                $blokirReason = "terlambat {$daysLate} hari";
+            }
+
+            // Blokir jika kondisi alat bukan baik
+            if ($request->kondisi !== 'baik') {
+                $kondisiBlokir = match ($request->kondisi) {
+                    'rusak' => 7,           // 7 hari untuk rusak
+                    'tidak_lengkap' => 14,  // 14 hari untuk tidak lengkap
+                    'hilang' => 30,         // 30 hari untuk hilang
+                    default => 0,
+                };
+
+                // Jika sudah terlambat, tambahkan hari blokirnya
+                if ($blokirDays > 0) {
+                    $blokirDays += $kondisiBlokir;
+                    $blokirReason .= " dan kondisi alat {$request->kondisi}";
+                } else {
+                    $blokirDays = $kondisiBlokir;
+                    $blokirReason = "kondisi alat {$request->kondisi}";
+                }
+            }
+
+            // Terapkan blokir jika ada alasan
+            if ($blokirDays > 0) {
                 $user->status_blokir = true;
-                // Durasi blokir = sekarang + jumlah hari keterlambatan (minimal 1 hari)
-                $user->durasi_blokir = Carbon::now()->addDays($daysLate);
+                $user->durasi_blokir = Carbon::now()->addDays($blokirDays);
                 $user->save();
             }
 
             DB::commit();
 
+            // Generate message
+            $message = 'Pengembalian berhasil diproses!';
+            if ($blokirDays > 0) {
+                $message = "Pengembalian berhasil! User diblokir selama {$blokirDays} hari karena {$blokirReason}.";
+            }
+
+            // Tambahkan info stok jika tidak dikembalikan
+            if (in_array($request->kondisi, ['hilang', 'tidak_lengkap'])) {
+                $message .= " Stok tidak dikembalikan karena kondisi alat {$request->kondisi}.";
+            }
+
             return response()->json([
                 'success' => true,
-                'message' => $isLate
-                    ? "Pengembalian berhasil! User diblokir selama {$daysLate} hari karena terlambat."
-                    : 'Pengembalian berhasil diproses!',
+                'message' => $message,
                 'data' => [
                     'is_late' => $isLate,
                     'days_late' => $daysLate,
-                    'kode' => $peminjaman->kode_peminjaman
+                    'kode' => $peminjaman->kode_peminjaman,
+                    'is_blocked' => $blokirDays > 0,
+                    'block_days' => $blokirDays,
+                    'stock_returned' => in_array($request->kondisi, ['baik', 'rusak'])
                 ]
             ]);
         } catch (\Exception $e) {
@@ -210,5 +255,31 @@ class ApprovalPengembalianController extends Controller
             ->firstOrFail();
 
         return view('petugas.approve-pengembalian.show', compact('peminjaman'));
+    }
+
+    /**
+     * Export data pengembalian to Excel
+     */
+    public function export(Request $request)
+    {
+        // Validate date inputs if provided
+        $request->validate([
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+        ]);
+
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
+
+        // Generate filename with date range if provided
+        $filename = 'data-pengembalian';
+        if ($startDate && $endDate) {
+            $filename .= '-' . date('d-m-Y', strtotime($startDate)) . '-sd-' . date('d-m-Y', strtotime($endDate));
+        } else {
+            $filename .= '-' . date('d-m-Y');
+        }
+        $filename .= '.xlsx';
+
+        return Excel::download(new PengembalianExport($startDate, $endDate), $filename);
     }
 }

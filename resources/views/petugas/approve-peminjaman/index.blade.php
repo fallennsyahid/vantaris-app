@@ -6,7 +6,12 @@
                 <h1 class="text-2xl text-heading font-bold">Penyetujuan Peminjaman</h1>
                 <p class="text-text font-lato">Kelola dan setujui pengajuan peminjaman alat.</p>
             </div>
-            <div>
+            <div class="flex items-center gap-4">
+                <button type="button" id="open-export-modal"
+                    class="flex items-center gap-4 text-white font-medium px-5 py-3 rounded-lg bg-success cursor-pointer hover:bg-green-700 transition-colors duration-200">
+                    <i class="fas fa-file-export"></i>
+                    Export Data Peminjaman
+                </button>
                 <button type="button" id="open-scanner-btn"
                     class="flex items-center gap-3 text-white font-medium px-6 py-3 rounded-lg bg-linear-to-r from-blue-500 to-blue-700 cursor-pointer hover:from-blue-600 hover:to-blue-800 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
                     <i class="fas fa-qrcode"></i>
@@ -407,6 +412,102 @@
     </div>
 </div>
 
+<!-- Modal Export dengan Filter Tanggal dan Status -->
+<div class="hidden fixed inset-0" id="export-modal" tabindex="-1" aria-hidden="true" style="z-index: 99999">
+    <!-- Background overlay -->
+    <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
+
+    <!-- Modal content wrapper -->
+    <div class="fixed inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div
+                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full relative z-10">
+                <form id="exportPeminjamanForm" action="{{ route('petugas.peminjaman.export') }}" method="GET">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
+                        <div class="flex items-center justify-between pb-3 border-b border-gray-200 mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-green-600 flex justify-center items-center">
+                                    <i class="fas fa-file-export text-white text-lg"></i>
+                                </div>
+                                <h3 class="text-lg font-semibold text-gray-900">Export Data Peminjaman</h3>
+                            </div>
+                            <button type="button" class="text-gray-400 hover:text-gray-500 close-export"
+                                aria-label="Close">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+
+                        <div class="space-y-4">
+                            <p class="text-sm text-gray-600">
+                                Pilih rentang tanggal dan status untuk mengexport data peminjaman. Kosongkan untuk
+                                export semua data.
+                            </p>
+
+                            <div>
+                                <label for="export_start_date" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Tanggal Mulai <span class="text-gray-500 text-xs">(opsional)</span>
+                                </label>
+                                <input type="date"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                    id="export_start_date" name="start_date">
+                            </div>
+
+                            <div>
+                                <label for="export_end_date" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Tanggal Akhir <span class="text-gray-500 text-xs">(opsional)</span>
+                                </label>
+                                <input type="date"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                    id="export_end_date" name="end_date">
+                            </div>
+
+                            <div>
+                                <label for="export_status" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Status <span class="text-gray-500 text-xs">(opsional)</span>
+                                </label>
+                                <select
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                    id="export_status" name="status">
+                                    <option value="all">Semua Status</option>
+                                    <option value="pending">Menunggu Persetujuan</option>
+                                    <option value="disetujui">Disetujui</option>
+                                    <option value="ditolak">Ditolak</option>
+                                    <option value="diambil">Sudah Diambil</option>
+                                    <option value="kembali">Sudah Dikembalikan</option>
+                                    <option value="terlambat">Terlambat</option>
+                                </select>
+                            </div>
+
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                                <div class="flex items-start gap-2">
+                                    <i class="fas fa-info-circle text-blue-600 mt-0.5"></i>
+                                    <p class="text-xs text-blue-800">
+                                        Data yang akan diexport mencakup kode peminjaman, nama peminjam, tanggal,
+                                        status, alat yang dipinjam, alasan, dan catatan.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse gap-2">
+                        <button type="submit"
+                            class="w-full inline-flex justify-center items-center gap-2 rounded-lg border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm transition-colors duration-200">
+                            <i class="fas fa-download"></i>
+                            Export Excel
+                        </button>
+                        <button type="button"
+                            class="close-export mt-3 w-full inline-flex justify-center rounded-lg border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:mt-0 sm:w-auto sm:text-sm transition-colors duration-200">
+                            Batal
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- CDN html5-qrcode -->
 <script src="https://unpkg.com/html5-qrcode"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -670,6 +771,57 @@
     function onScanError(errorMessage) {
         // Ignore scan errors (happens continuously when no QR code is detected)
     }
+
+    // Export Modal handlers
+    const exportModal = document.getElementById('export-modal');
+    const openExportModalBtn = document.getElementById('open-export-modal');
+    const closeExportBtns = document.querySelectorAll('.close-export');
+
+    // Open export modal
+    openExportModalBtn.addEventListener('click', function() {
+        exportModal.classList.remove('hidden');
+        // Set max date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('export_end_date').setAttribute('max', today);
+    });
+
+    // Close export modal
+    closeExportBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            exportModal.classList.add('hidden');
+            // Reset form
+            document.getElementById('exportPeminjamanForm').reset();
+        });
+    });
+
+    // Close modal when clicking outside
+    exportModal.addEventListener('click', function(e) {
+        if (e.target === exportModal || e.target.classList.contains('bg-gray-500/75')) {
+            exportModal.classList.add('hidden');
+            document.getElementById('exportPeminjamanForm').reset();
+        }
+    });
+
+    // Validate date range
+    const startDateInput = document.getElementById('export_start_date');
+    const endDateInput = document.getElementById('export_end_date');
+
+    startDateInput.addEventListener('change', function() {
+        if (this.value) {
+            endDateInput.setAttribute('min', this.value);
+        } else {
+            endDateInput.removeAttribute('min');
+        }
+    });
+
+    endDateInput.addEventListener('change', function() {
+        if (this.value && startDateInput.value) {
+            if (new Date(this.value) < new Date(startDateInput.value)) {
+                alert('Tanggal akhir tidak boleh lebih kecil dari tanggal mulai!');
+                this.value = '';
+            }
+        }
+    });
 </script>
 
 <script src="{{ asset('asset-peminjam/js/index.js') }}"></script>

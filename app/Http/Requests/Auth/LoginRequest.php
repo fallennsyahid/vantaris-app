@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Carbon\Carbon;
 
 class LoginRequest extends FormRequest
 {
@@ -55,6 +56,37 @@ class LoginRequest extends FormRequest
             throw ValidationException::withMessages([
                 'login' => trans('auth.failed'),
             ]);
+        }
+
+        // Check if user is blocked
+        $user = Auth::user();
+        if ($user->status_blokir) {
+            // Check if block duration has expired
+            if ($user->durasi_blokir && Carbon::now()->greaterThan(Carbon::parse($user->durasi_blokir))) {
+                // Auto-unblock if duration has passed
+                $user->status_blokir = false;
+                $user->durasi_blokir = null;
+                $user->save();
+            } else {
+                // User is still blocked
+                Auth::logout();
+
+                $durasiBlokir = $user->durasi_blokir ? Carbon::parse($user->durasi_blokir) : null;
+                $sisaHari = $durasiBlokir ? (int) ceil(Carbon::now()->diffInDays($durasiBlokir, false)) : 0;
+
+                $message = 'Akun Anda sedang diblokir.';
+                if ($durasiBlokir && $sisaHari > 0) {
+                    $message .= " Blokir akan berakhir pada " . $durasiBlokir->format('d M Y H:i') . " (sekitar {$sisaHari} hari lagi).";
+                } elseif ($durasiBlokir) {
+                    $message .= " Blokir akan berakhir pada " . $durasiBlokir->format('d M Y H:i') . ".";
+                } else {
+                    $message .= " Silakan hubungi admin untuk informasi lebih lanjut.";
+                }
+
+                throw ValidationException::withMessages([
+                    'login' => $message,
+                ]);
+            }
         }
 
         RateLimiter::clear($this->throttleKey());

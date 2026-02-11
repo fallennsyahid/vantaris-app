@@ -68,9 +68,11 @@ Route::middleware(['auth', 'role:petugas'])->prefix('petugas')->name('petugas.')
     Route::post('/approve-peminjaman/{id}/approve', [ApprovalPeminjamanController::class, 'approve'])->name('approve-peminjaman.approve');
     Route::post('/approve-peminjaman/{id}/reject', [ApprovalPeminjamanController::class, 'reject'])->name('approve-peminjaman.reject');
     Route::post('/peminjaman/scan-proses', [ApprovalPeminjamanController::class, 'scanProcess'])->name('peminjaman.scan-proses');
+    Route::get('/peminjaman/export', [ApprovalPeminjamanController::class, 'export'])->name('peminjaman.export');
     Route::resource('/approve-pengembalian', ApprovalPengembalianController::class);
     Route::post('/pengembalian/scan-proses', [ApprovalPengembalianController::class, 'scanProcess'])->name('pengembalian.scan-proses');
     Route::post('/pengembalian/proses', [ApprovalPengembalianController::class, 'processReturn'])->name('pengembalian.proses');
+    Route::get('/pengembalian/export', [ApprovalPengembalianController::class, 'export'])->name('pengembalian.export');
 
     // Tambahkan routes petugas lainnya di sini
 });

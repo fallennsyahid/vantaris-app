@@ -25,6 +25,7 @@ class Pengembalian extends Model
     protected $casts = [
         'tanggal_pengembalian_sebenarnya' => 'datetime',
         'is_tanggung_jawab_selesai' => 'boolean',
+        'kondisi' => KondisiAlat::class,
     ];
 
     protected static function boot()

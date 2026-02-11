@@ -15,6 +15,8 @@ class PengembalianObserver
     {
         $peminjaman = $pengembalian->peminjaman;
 
+        $kondisiValue = is_object($pengembalian->kondisi) ? $pengembalian->kondisi->value : $pengembalian->kondisi;
+
         LogAktivitas::create([
             'user_id' => Auth::user()?->user_id,
             'aksi' => 'create',
@@ -26,9 +28,9 @@ class PengembalianObserver
                 'received_by' => $pengembalian->received_by,
                 'nama_penerima' => $pengembalian->penerima->nama_lengkap ?? 'Unknown',
                 'tanggal_pengembalian_sebenarnya' => $pengembalian->tanggal_pengembalian_sebenarnya,
-                'kondisi' => $pengembalian->kondisi,
+                'kondisi' => $kondisiValue,
                 'catatan' => $pengembalian->catatan,
-                'message' => "Pengembalian untuk peminjaman ({$peminjaman->kode_peminjaman}) berhasil dicatat dengan kondisi: {$pengembalian->kondisi}"
+                'message' => "Pengembalian untuk peminjaman ({$peminjaman->kode_peminjaman}) berhasil dicatat dengan kondisi: {$kondisiValue}"
             ])
         ]);
     }
@@ -41,6 +43,14 @@ class PengembalianObserver
         $changes = $pengembalian->getChanges();
         $original = $pengembalian->getOriginal();
         $peminjaman = $pengembalian->peminjaman;
+
+        // Convert enum to value if exists in changes
+        if (isset($changes['kondisi']) && is_object($changes['kondisi'])) {
+            $changes['kondisi'] = $changes['kondisi']->value;
+        }
+        if (isset($original['kondisi']) && is_object($original['kondisi'])) {
+            $original['kondisi'] = $original['kondisi']->value;
+        }
 
         LogAktivitas::create([
             'user_id' => Auth::user()?->user_id,

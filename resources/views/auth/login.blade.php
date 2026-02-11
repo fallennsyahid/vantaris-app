@@ -31,6 +31,29 @@
 
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+    <!-- Error Message Alert -->
+    @if ($errors->any())
+        <div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4">
+            <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg shadow-lg">
+                <div class="flex items-start">
+                    <div class="shrink-0">
+                        <i class="fas fa-exclamation-circle text-red-500 text-xl"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm font-medium text-red-800">
+                            {{ $errors->first('login') ?: $errors->first() }}
+                        </p>
+                    </div>
+                    <button type="button"
+                        class="ml-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg p-1.5 hover:bg-red-100 inline-flex h-8 w-8 items-center justify-center"
+                        onclick="this.parentElement.parentElement.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <div class="absolute inset-0 -z-50 login-bg pointer-events-none"></div>
 
     <div class="flex items-center justify-center relative px-4">

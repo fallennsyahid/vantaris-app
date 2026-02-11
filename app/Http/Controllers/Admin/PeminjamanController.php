@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 
 class PeminjamanController extends Controller
@@ -12,7 +13,10 @@ class PeminjamanController extends Controller
      */
     public function index()
     {
-        return view('admin.peminjaman.index');
+        $peminjamans = Peminjaman::with('peminjam')->latest()->paginate(10);
+        $totalPeminjaman = Peminjaman::count();
+        $totalPeminjam = Peminjaman::distinct('user_id')->count('user_id');
+        return view('admin.peminjaman.index', compact('peminjamans', 'totalPeminjaman', 'totalPeminjam'));
     }
 
     /**

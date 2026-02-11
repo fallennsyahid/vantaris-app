@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Enums\StatusPeminjaman;
+use App\Models\Peminjaman;
+use App\Models\Pengembalian;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class PengembalianController extends Controller
 {
@@ -12,7 +15,25 @@ class PengembalianController extends Controller
      */
     public function index()
     {
-        return view('admin.pengembalian.index');
+        $pengembalians = Pengembalian::with(['peminjaman.details.alat', 'peminjaman.peminjam', 'penerima'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Hitung total pengembalian
+        $totalPengembalian = $pengembalians->count();
+
+        // Hitung jumlah peminjam unik
+        $totalPeminjam = $pengembalians->pluck('peminjaman.user_id')->unique()->count();
+
+        // Hitung total peminjaman dengan status 
+        $totalPeminjaman = Peminjaman::with('status', StatusPeminjaman::DIAMBIL)->count();
+
+        return view('admin.pengembalian.index', compact(
+            'pengembalians',
+            'totalPengembalian',
+            'totalPeminjaman',
+            'totalPeminjam'
+        ));
     }
 
     /**

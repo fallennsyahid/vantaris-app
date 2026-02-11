@@ -18,7 +18,7 @@ return new class extends Migration
             $table->uuid('peminjaman_id')->unique();
             $table->uuid('received_by');
             $table->timestamp('tanggal_pengembalian_sebenarnya')->useCurrent();
-            $table->enum('kondisi', [KondisiAlat::getAllKondisi()]);
+            $table->enum('kondisi', KondisiAlat::getAllKondisi());
             $table->text('catatan')->nullable();
             $table->boolean('is_tanggung_jawab_selesai')->default(true)->comment('False jika kondisi selain baik, True jika sudah diperbaiki/diganti');
             $table->timestamps();
