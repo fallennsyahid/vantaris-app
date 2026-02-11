@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\LogAktivitas;
 use Illuminate\Http\Request;
 
 class LogAktifitasController extends Controller
@@ -12,7 +13,14 @@ class LogAktifitasController extends Controller
      */
     public function index()
     {
-        return view('admin.log.index');
+        $logs = LogAktivitas::with('user')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $totalLogs = $logs->count();
+        $totalHariIni = LogAktivitas::whereDate('created_at', today())->count();
+
+        return view('admin.log.index', compact('logs', 'totalLogs', 'totalHariIni'));
     }
 
     /**

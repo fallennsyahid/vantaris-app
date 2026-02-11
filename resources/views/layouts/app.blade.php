@@ -39,8 +39,15 @@
             </div>
         </main>
     </div>
-</body>
 
-<script src="{{ asset('asset-admin/js/dashboard.js') }}"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Dashboard JS -->
+    <script src="{{ asset('asset-admin/js/dashboard.js') }}"></script>
+
+    <!-- Page specific scripts -->
+    @stack('scripts')
+</body>
 
 </html>

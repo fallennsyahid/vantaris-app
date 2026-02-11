@@ -281,17 +281,17 @@
                                                     'icon' => 'fa-check-circle',
                                                     'label' => 'Baik',
                                                 ],
-                                                'rusak ringan' => [
-                                                    'bg' => 'bg-yellow-100',
-                                                    'text' => 'text-yellow-700',
-                                                    'icon' => 'fa-exclamation-triangle',
-                                                    'label' => 'Rusak Ringan',
-                                                ],
-                                                'rusak berat' => [
+                                                'rusak' => [
                                                     'bg' => 'bg-red-100',
                                                     'text' => 'text-red-700',
                                                     'icon' => 'fa-times-circle',
-                                                    'label' => 'Rusak Berat',
+                                                    'label' => 'Rusak',
+                                                ],
+                                                'tidak_lengkap' => [
+                                                    'bg' => 'bg-orange-100',
+                                                    'text' => 'text-orange-700',
+                                                    'icon' => 'fa-exclamation-triangle',
+                                                    'label' => 'Tidak Lengkap',
                                                 ],
                                                 'hilang' => [
                                                     'bg' => 'bg-gray-100',

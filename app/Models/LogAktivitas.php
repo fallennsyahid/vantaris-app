@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 class LogAktivitas extends Model
 {
-    protected $table = 'log_aktifitas'; // Manual karena Laravel mungkin anggap jamak 'log_aktifitas'
+    protected $table = 'log_aktivitas'; // Manual karena Laravel mungkin anggap jamak 'log_aktifitas'
     protected $fillable = ['log_id', 'user_id', 'aksi', 'entitas', 'keterangan_dan_detail'];
 
     protected static function boot()

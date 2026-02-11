@@ -11,6 +11,7 @@ use App\Enums\KondisiAlat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class ApprovalPengembalianController extends Controller
 {
@@ -20,22 +21,22 @@ class ApprovalPengembalianController extends Controller
     public function index()
     {
         // Get peminjaman yang sudah diambil (siap dikembalikan)
-        $peminjamanDiambil = Peminjaman::where('status', StatusPeminjaman::DIAMBIL)
+        $peminjamanDiambil = Peminjaman::where('status', StatusPeminjaman::DIAMBIL->value)
             ->with(['peminjam', 'details.alat'])
             ->latest()
             ->get();
 
         // Get peminjaman yang sudah dikembalikan (untuk history)
-        $peminjamanDikembalikan = Peminjaman::whereIn('status', [StatusPeminjaman::KEMBALI, StatusPeminjaman::TERLAMBAT])
+        $peminjamanDikembalikan = Peminjaman::whereIn('status', [StatusPeminjaman::KEMBALI->value, StatusPeminjaman::TERLAMBAT->value])
             ->with(['peminjam', 'details.alat', 'pengembalian'])
             ->latest()
             ->take(10)
             ->get();
 
         // Statistics
-        $totalMenunggu = Peminjaman::where('status', StatusPeminjaman::DIAMBIL)->count();
-        $totalKembali = Peminjaman::where('status', StatusPeminjaman::KEMBALI)->count();
-        $totalTerlambat = Peminjaman::where('status', StatusPeminjaman::TERLAMBAT)->count();
+        $totalMenunggu = Peminjaman::where('status', StatusPeminjaman::DIAMBIL->value)->count();
+        $totalKembali = Peminjaman::where('status', StatusPeminjaman::KEMBALI->value)->count();
+        $totalTerlambat = Peminjaman::where('status', StatusPeminjaman::TERLAMBAT->value)->count();
 
         // Hitung jumlah user yang terblokir
         $totalUserBlokir = User::where('status_blokir', true)->count();
@@ -71,8 +72,9 @@ class ApprovalPengembalianController extends Controller
             }
 
             // Validasi status harus 'diambil'
-            if ($peminjaman->status !== StatusPeminjaman::DIAMBIL) {
-                $statusText = ucfirst($peminjaman->status->value);
+            $currentStatus = is_object($peminjaman->status) ? $peminjaman->status->value : $peminjaman->status;
+            if ($currentStatus !== StatusPeminjaman::DIAMBIL->value) {
+                $statusText = ucfirst(str_replace('_', ' ', $currentStatus));
                 return response()->json([
                     'success' => false,
                     'message' => "Peminjaman ini tidak dapat dikembalikan. Status saat ini: {$statusText}"
@@ -114,9 +116,11 @@ class ApprovalPengembalianController extends Controller
     public function processReturn(Request $request)
     {
         $request->validate([
-            'peminjaman_id' => 'required|exists:peminjamans,id',
-            'kondisi' => 'required|in:baik,rusak_ringan,rusak_berat,hilang',
-            'catatan' => 'nullable|string|max:500'
+            'peminjaman_id' => 'required|exists:peminjamans,peminjaman_id',
+            'kondisi' => 'required|in:baik,rusak,tidak_lengkap,hilang',
+            'catatan' => 'required_unless:kondisi,baik|nullable|string|max:500'
+        ], [
+            'catatan.required_unless' => 'Catatan wajib diisi jika kondisi alat bukan "Baik"'
         ]);
 
         DB::beginTransaction();
@@ -126,7 +130,8 @@ class ApprovalPengembalianController extends Controller
                 ->firstOrFail();
 
             // Validasi status
-            if ($peminjaman->status !== StatusPeminjaman::DIAMBIL) {
+            $currentStatus = is_object($peminjaman->status) ? $peminjaman->status->value : $peminjaman->status;
+            if ($currentStatus !== StatusPeminjaman::DIAMBIL->value) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Peminjaman ini tidak dapat dikembalikan!'
@@ -145,16 +150,18 @@ class ApprovalPengembalianController extends Controller
             }
 
             // Update status peminjaman
-            $peminjaman->status = $isLate ? StatusPeminjaman::TERLAMBAT : StatusPeminjaman::KEMBALI;
+            $peminjaman->status = $isLate ? StatusPeminjaman::TERLAMBAT->value : StatusPeminjaman::KEMBALI->value;
             $peminjaman->save();
 
             // Buat record pengembalian
             $pengembalian = Pengembalian::create([
                 'peminjaman_id' => $peminjaman->peminjaman_id,
-                'tanggal_kembali_sebenarnya' => $tanggalKembaliSebenarnya,
+                // 'received_by' => auth()->user()->user_id,
+                'received_by' => Auth::user()->user_id,
+                'tanggal_pengembalian_sebenarnya' => $tanggalKembaliSebenarnya,
                 'kondisi' => KondisiAlat::from($request->kondisi),
                 'catatan' => $request->catatan,
-                'denda' => 0, // Bisa disesuaikan dengan logika denda
+                'is_tanggung_jawab_selesai' => $request->kondisi === 'baik' ? true : false,
             ]);
 
             // Kembalikan stok alat

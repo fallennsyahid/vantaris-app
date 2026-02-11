@@ -1,135 +1,145 @@
 <x-app-layout title="Detail Pengembalian">
-    <div class="container-fluid py-4">
-        <div class="row mb-4">
-            <div class="col-12">
-                <a href="{{ route('petugas.approve-pengembalian.index') }}" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left me-2"></i>Kembali
-                </a>
-            </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="mb-6">
+            <a href="{{ route('petugas.approve-pengembalian.index') }}"
+                class="inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg shadow-sm transition-colors duration-200">
+                <i class="fas fa-arrow-left mr-2"></i>Kembali
+            </a>
         </div>
 
-        <div class="row">
-            <div class="col-lg-8">
-                <div class="card">
-                    <div class="card-header pb-0">
-                        <h6>Detail Peminjaman</h6>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white rounded-lg shadow-sm">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h6 class="text-lg font-semibold text-gray-900">Detail Peminjaman</h6>
                     </div>
-                    <div class="card-body">
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <p class="text-sm mb-1"><strong>Kode Peminjaman:</strong></p>
-                                <p class="text-sm text-secondary">{{ $peminjaman->kode_peminjaman }}</p>
+                    <div class="px-6 py-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <p class="text-sm font-semibold text-gray-700 mb-1">Kode Peminjaman:</p>
+                                <p class="text-sm text-gray-600">{{ $peminjaman->kode_peminjaman }}</p>
                             </div>
-                            <div class="col-md-6">
-                                <p class="text-sm mb-1"><strong>Status:</strong></p>
+                            <div>
+                                <p class="text-sm font-semibold text-gray-700 mb-1">Status:</p>
                                 @php
-                                    $badgeClass = match ($peminjaman->status) {
-                                        App\Enums\StatusPeminjaman::PENDING => 'bg-gradient-warning',
-                                        App\Enums\StatusPeminjaman::DISETUJUI => 'bg-gradient-info',
-                                        App\Enums\StatusPeminjaman::DIAMBIL => 'bg-gradient-primary',
-                                        App\Enums\StatusPeminjaman::KEMBALI => 'bg-gradient-success',
-                                        App\Enums\StatusPeminjaman::TERLAMBAT => 'bg-gradient-danger',
-                                        App\Enums\StatusPeminjaman::DITOLAK => 'bg-gradient-dark',
+                                    $statusValue = is_object($peminjaman->status)
+                                        ? $peminjaman->status->value
+                                        : $peminjaman->status;
+                                    $badgeClass = match ($statusValue) {
+                                        'pending' => 'from-yellow-500 to-yellow-600',
+                                        'disetujui' => 'from-blue-500 to-blue-600',
+                                        'diambil' => 'from-indigo-500 to-indigo-600',
+                                        'kembali' => 'from-green-500 to-green-600',
+                                        'terlambat' => 'from-red-500 to-red-600',
+                                        'ditolak' => 'from-gray-600 to-gray-800',
+                                        default => 'from-gray-400 to-gray-600',
                                     };
                                 @endphp
-                                <span class="badge {{ $badgeClass }}">{{ ucfirst($peminjaman->status->value) }}</span>
+                                <span
+                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gradient-to-r {{ $badgeClass }} text-white">
+                                    {{ ucfirst($statusValue) }}
+                                </span>
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <p class="text-sm mb-1"><strong>Tanggal Pengajuan:</strong></p>
-                                <p class="text-sm text-secondary">{{ $peminjaman->tanggal_pengajuan->format('d/m/Y') }}
-                                </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <p class="text-sm font-semibold text-gray-700 mb-1">Tanggal Pengajuan:</p>
+                                <p class="text-sm text-gray-600">{{ $peminjaman->tanggal_pengajuan->format('d/m/Y') }}
                                 </p>
                             </div>
-                            <div class="col-md-6">
-                                <p class="text-sm mb-1"><strong>Tanggal Rencana Kembali:</strong></p>
-                                <p class="text-sm text-secondary">
+                            <div>
+                                <p class="text-sm font-semibold text-gray-700 mb-1">Tanggal Rencana Kembali:</p>
+                                <p class="text-sm text-gray-600">
                                     {{ $peminjaman->tanggal_pengembalian_rencana->format('d/m/Y') }}</p>
                             </div>
                         </div>
 
                         @if ($peminjaman->pengembalian)
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <p class="text-sm mb-1"><strong>Tanggal Kembali Sebenarnya:</strong></p>
-                                    <p class="text-sm text-secondary">
-                                        {{ $peminjaman->pengembalian->tanggal_kembali_sebenarnya->format('d/m/Y H:i') }}
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <p class="text-sm font-semibold text-gray-700 mb-1">Tanggal Kembali Sebenarnya:</p>
+                                    <p class="text-sm text-gray-600">
+                                        {{ $peminjaman->pengembalian->tanggal_pengembalian_sebenarnya->format('d/m/Y H:i') }}
                                     </p>
                                 </div>
-                                <div class="col-md-6">
-                                    <p class="text-sm mb-1"><strong>Kondisi:</strong></p>
+                                <div>
+                                    <p class="text-sm font-semibold text-gray-700 mb-1">Kondisi:</p>
                                     @php
-                                        $kondisi = $peminjaman->pengembalian->kondisi->value;
+                                        $kondisi = is_object($peminjaman->pengembalian->kondisi)
+                                            ? $peminjaman->pengembalian->kondisi->value
+                                            : $peminjaman->pengembalian->kondisi;
                                         $kondisiBadge = match ($kondisi) {
-                                            'baik' => 'bg-gradient-success',
-                                            'rusak_ringan' => 'bg-gradient-warning',
-                                            'rusak_berat' => 'bg-gradient-danger',
-                                            'hilang' => 'bg-gradient-dark',
+                                            'baik' => 'from-green-500 to-green-600',
+                                            'rusak' => 'from-red-500 to-red-600',
+                                            'tidak_lengkap' => 'from-orange-500 to-orange-600',
+                                            'hilang' => 'from-gray-600 to-gray-800',
+                                            default => 'from-gray-400 to-gray-600',
                                         };
                                     @endphp
                                     <span
-                                        class="badge {{ $kondisiBadge }}">{{ ucwords(str_replace('_', ' ', $kondisi)) }}</span>
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gradient-to-r {{ $kondisiBadge }} text-white">
+                                        {{ ucwords(str_replace('_', ' ', $kondisi)) }}
+                                    </span>
                                 </div>
                             </div>
 
                             @if ($peminjaman->pengembalian->catatan)
-                                <div class="row mb-3">
-                                    <div class="col-12">
-                                        <p class="text-sm mb-1"><strong>Catatan:</strong></p>
-                                        <p class="text-sm text-secondary">{{ $peminjaman->pengembalian->catatan }}</p>
-                                    </div>
+                                <div class="mb-4">
+                                    <p class="text-sm font-semibold text-gray-700 mb-1">Catatan:</p>
+                                    <p class="text-sm text-gray-600">{{ $peminjaman->pengembalian->catatan }}</p>
                                 </div>
                             @endif
                         @endif
 
-                        <div class="row">
-                            <div class="col-12">
-                                <p class="text-sm mb-1"><strong>Alasan Meminjam:</strong></p>
-                                <p class="text-sm text-secondary">{{ $peminjaman->alasan_meminjam }}</p>
-                            </div>
+                        <div>
+                            <p class="text-sm font-semibold text-gray-700 mb-1">Alasan Meminjam:</p>
+                            <p class="text-sm text-gray-600">{{ $peminjaman->alasan_meminjam }}</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="card mt-4">
-                    <div class="card-header pb-0">
-                        <h6>Daftar Alat</h6>
+                <div class="bg-white rounded-lg shadow-sm">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h6 class="text-lg font-semibold text-gray-900">Daftar Alat</h6>
                     </div>
-                    <div class="card-body px-0 pt-0 pb-2">
-                        <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0">
-                                <thead>
+                    <div class="overflow-x-auto">
+                        <div class="inline-block min-w-full align-middle">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
                                     <tr>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                                             No</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                                             Nama Alat</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                                             Kategori</th>
                                         <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
+                                            class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase tracking-wider">
                                             Jumlah</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="bg-white divide-y divide-gray-200">
                                     @foreach ($peminjaman->details as $detail)
-                                        <tr>
-                                            <td>
-                                                <p class="text-xs font-weight-bold mb-0 ms-3">{{ $loop->iteration }}
+                                        <tr class="hover:bg-gray-50 transition-colors">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <p class="text-sm font-semibold text-gray-900">{{ $loop->iteration }}
                                                 </p>
                                             </td>
-                                            <td>
-                                                <p class="text-xs font-weight-bold mb-0">{{ $detail->alat->nama_alat }}
-                                                </p>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <p class="text-sm font-semibold text-gray-900">
+                                                    {{ $detail->alat->nama_alat }}</p>
                                             </td>
-                                            <td>
-                                                <p class="text-xs text-secondary mb-0">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <p class="text-sm text-gray-600">
                                                     {{ $detail->alat->kategori->nama_kategori }}</p>
                                             </td>
-                                            <td class="text-center">
-                                                <p class="text-xs font-weight-bold mb-0">{{ $detail->jumlah }} unit</p>
+                                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                                <p class="text-sm font-semibold text-gray-900">{{ $detail->jumlah }}
+                                                    unit</p>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -140,47 +150,63 @@
                 </div>
             </div>
 
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="card-header pb-0">
-                        <h6>Informasi Peminjam</h6>
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow-sm">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h6 class="text-lg font-semibold text-gray-900">Informasi Peminjam</h6>
                     </div>
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-3">
+                    <div class="px-6 py-4">
+                        <div class="flex items-center mb-4">
                             @php
                                 $avatarUrl = \Laravolt\Avatar\Facade::create(
-                                    $peminjaman->user->nama_lengkap ?? ($peminjaman->user->name ?? 'User'),
+                                    $peminjaman->peminjam->nama_lengkap ?? ($peminjaman->peminjam->name ?? 'User'),
                                 )
                                     ->setDimension(80)
                                     ->setFontSize(32)
                                     ->toBase64();
                             @endphp
-                            <img src="{{ $avatarUrl }}" class="rounded-circle me-3" alt="Avatar"
+                            <img src="{{ $avatarUrl }}" class="rounded-full mr-3" alt="Avatar"
                                 style="width: 60px; height: 60px;">
                             <div>
-                                <h6 class="mb-0">{{ $peminjaman->user->nama_lengkap ?? $peminjaman->user->name }}
+                                <h6 class="text-sm font-semibold text-gray-900 mb-1">
+                                    {{ $peminjaman->peminjam->nama_lengkap ?? ($peminjaman->peminjam->name ?? 'User') }}
                                 </h6>
-                                <p class="text-xs text-secondary mb-0">{{ $peminjaman->user->email }}</p>
+                                <p class="text-xs text-gray-500">{{ $peminjaman->peminjam->email ?? 'Email' }}</p>
                             </div>
                         </div>
 
-                        <hr class="horizontal dark my-3">
+                        <hr class="border-gray-200 my-4">
 
-                        <div class="mb-2">
-                            <p class="text-sm mb-1"><strong>Role:</strong></p>
+                        <div class="mb-4">
+                            <p class="text-sm font-semibold text-gray-700 mb-1">Role:</p>
+                            @php
+                                $roleValue = is_object($peminjaman->peminjam->role)
+                                    ? $peminjaman->peminjam->role->value
+                                    : $peminjaman->peminjam->role;
+                            @endphp
                             <span
-                                class="badge badge-sm bg-gradient-info">{{ ucfirst($peminjaman->user->role->value) }}</span>
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+                                {{ ucfirst($roleValue) }}
+                            </span>
                         </div>
 
-                        @if ($peminjaman->user->status_blokir)
-                            <div class="alert alert-danger mt-3">
-                                <p class="text-xs mb-1"><strong>Status Akun:</strong></p>
-                                <p class="text-xs mb-1">User ini sedang <strong>TERBLOKIR</strong></p>
-                                @if ($peminjaman->user->durasi_blokir)
-                                    <p class="text-xs mb-0">Hingga:
-                                        {{ \Carbon\Carbon::parse($peminjaman->user->durasi_blokir)->format('d M Y, H:i') }}
-                                    </p>
-                                @endif
+                        @if ($peminjaman->peminjam->status_blokir)
+                            <div class="bg-red-50 border-l-4 border-red-500 p-4 mt-4">
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-exclamation-triangle text-red-500"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-xs font-semibold text-red-700 mb-1">Status Akun:</p>
+                                        <p class="text-xs text-red-700 mb-1">User ini sedang <strong>TERBLOKIR</strong>
+                                        </p>
+                                        @if ($peminjaman->peminjam->durasi_blokir)
+                                            <p class="text-xs text-red-700 mb-0">Hingga:
+                                                {{ \Carbon\Carbon::parse($peminjaman->peminjam->durasi_blokir)->format('d M Y, H:i') }}
+                                            </p>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
                         @endif
                     </div>

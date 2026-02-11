@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\KondisiAlat;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -15,15 +16,15 @@ class Pengembalian extends Model
         'pengembalian_id',
         'peminjaman_id',
         'received_by',
-        'tanggal_kembali_sebenarnya',
+        'tanggal_pengembalian_sebenarnya',
         'kondisi',
         'catatan',
         'is_tanggung_jawab_selesai',
     ];
 
     protected $casts = [
-        'tanggal_kembali_sebenarnya' => 'datetime',
-        'is_tanggung_jawab_selesai' => 'boolean'
+        'tanggal_pengembalian_sebenarnya' => 'datetime',
+        'is_tanggung_jawab_selesai' => 'boolean',
     ];
 
     protected static function boot()

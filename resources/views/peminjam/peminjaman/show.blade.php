@@ -212,28 +212,45 @@
 
             <!-- QR Code Sidebar -->
             <div class="lg:col-span-1">
-                @if ($peminjaman->status === 'disetujui' && $qrCode)
+                @if (in_array($peminjaman->status, ['disetujui', 'diambil']) && $qrCode)
                     <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm sticky top-4">
                         <div
-                            class="px-6 py-4 border-b border-gray-100 bg-linear-to-r from-green-500 to-green-600 text-white">
+                            class="px-6 py-4 border-b border-gray-100 bg-gradient-to-r {{ $peminjaman->status === 'diambil' ? 'from-blue-500 to-blue-600' : 'from-green-500 to-green-600' }} text-white">
                             <h2 class="text-lg font-semibold flex items-center gap-2">
                                 <i class="fas fa-qrcode"></i>
-                                QR Code Pengambilan
+                                @if ($peminjaman->status === 'diambil')
+                                    QR Code Pengembalian
+                                @else
+                                    QR Code Pengambilan
+                                @endif
                             </h2>
-                            <p class="text-sm text-green-50 mt-1">Tunjukkan kode ini saat pengambilan alat</p>
+                            <p
+                                class="text-sm {{ $peminjaman->status === 'diambil' ? 'text-blue-50' : 'text-green-50' }} mt-1">
+                                @if ($peminjaman->status === 'diambil')
+                                    Tunjukkan kode ini saat pengembalian alat
+                                @else
+                                    Tunjukkan kode ini saat pengambilan alat
+                                @endif
+                            </p>
                         </div>
 
                         <div class="p-6">
-                            <div class="bg-white border-4 border-green-500 rounded-lg p-4 mb-4">
+                            <div
+                                class="bg-white border-4 {{ $peminjaman->status === 'diambil' ? 'border-blue-500' : 'border-green-500' }} rounded-lg p-4 mb-4">
                                 <div class="flex justify-center">
                                     <img src="data:image/svg+xml;base64,{{ $qrCode }}" alt="QR Code"
                                         class="w-full max-w-75">
                                 </div>
                             </div>
 
-                            <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
-                                <p class="text-xs text-green-800 font-medium mb-2">Token:</p>
-                                <p class="text-sm text-green-900 font-mono break-all">{{ $peminjaman->qr_token }}</p>
+                            <div
+                                class="{{ $peminjaman->status === 'diambil' ? 'bg-blue-50 border-blue-200' : 'bg-green-50 border-green-200' }} border rounded-lg p-4 mb-4">
+                                <p
+                                    class="text-xs {{ $peminjaman->status === 'diambil' ? 'text-blue-800' : 'text-green-800' }} font-medium mb-2">
+                                    Token:</p>
+                                <p
+                                    class="text-sm {{ $peminjaman->status === 'diambil' ? 'text-blue-900' : 'text-green-900' }} font-mono break-all">
+                                    {{ $peminjaman->qr_token }}</p>
                             </div>
 
                             <div class="space-y-2">
@@ -252,8 +269,12 @@
                             <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
                                 <p class="text-xs text-blue-800">
                                     <i class="fas fa-info-circle mr-1"></i>
-                                    <strong>Catatan:</strong> Simpan atau cetak QR Code ini untuk memudahkan proses
-                                    pengambilan alat.
+                                    <strong>Catatan:</strong>
+                                    @if ($peminjaman->status === 'diambil')
+                                        Simpan atau cetak QR Code ini untuk memudahkan proses pengembalian alat.
+                                    @else
+                                        Simpan atau cetak QR Code ini untuk memudahkan proses pengambilan alat.
+                                    @endif
                                 </p>
                             </div>
                         </div>

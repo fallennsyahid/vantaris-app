@@ -1,148 +1,126 @@
-<x-app-layout title="Penyetujuan Pengembalian">
-    <div class="container-fluid py-4">
+﻿<x-app-layout title="Penyetujuan Pengembalian">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Statistics Cards -->
-        <div class="row mb-4">
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                <div class="card">
-                    <div class="card-body p-3">
-                        <div class="row">
-                            <div class="col-8">
-                                <div class="numbers">
-                                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Menunggu Pengembalian</p>
-                                    <h5 class="font-weight-bolder mb-0">
-                                        {{ $totalMenunggu }}
-                                    </h5>
-                                </div>
-                            </div>
-                            <div class="col-4 text-end">
-                                <div class="icon icon-shape bg-gradient-warning shadow text-center border-radius-md">
-                                    <i class="fas fa-clock text-lg opacity-10" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-4">
+            <div class="bg-white shadow-md p-4 rounded-xl geometric-shape hover:shadow-lg">
+                <div class="flex flex-row justify-between items-center space-y-0 pb-2">
+                    <h1 class="text-sm font-medium text-text">
+                        Total Menunggu Pengembalian
+                    </h1>
+                    <div class="w-8 h-8 rounded-lg bg-primary flex justify-center items-center">
+                        <i class="fas fa-briefcase text-white text-base"></i>
                     </div>
                 </div>
-            </div>
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                <div class="card">
-                    <div class="card-body p-3">
-                        <div class="row">
-                            <div class="col-8">
-                                <div class="numbers">
-                                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Sudah Dikembalikan</p>
-                                    <h5 class="font-weight-bolder mb-0">
-                                        {{ $totalKembali }}
-                                    </h5>
-                                </div>
-                            </div>
-                            <div class="col-4 text-end">
-                                <div class="icon icon-shape bg-gradient-success shadow text-center border-radius-md">
-                                    <i class="fas fa-check-circle text-lg opacity-10" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="text-2xl text-primary mt-1 font-bold">
+                    {{ $totalMenunggu }}
                 </div>
             </div>
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                <div class="card">
-                    <div class="card-body p-3">
-                        <div class="row">
-                            <div class="col-8">
-                                <div class="numbers">
-                                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Terlambat</p>
-                                    <h5 class="font-weight-bolder mb-0">
-                                        {{ $totalTerlambat }}
-                                    </h5>
-                                </div>
-                            </div>
-                            <div class="col-4 text-end">
-                                <div class="icon icon-shape bg-gradient-danger shadow text-center border-radius-md">
-                                    <i class="fas fa-exclamation-triangle text-lg opacity-10" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                        </div>
+            <div class="bg-white shadow-md p-4 rounded-xl geometric-shape hover:shadow-lg">
+                <div class="flex flex-row justify-between items-center space-y-0 pb-2">
+                    <h1 class="text-sm font-medium text-text">
+                        Total Alat Dikembalikan
+                    </h1>
+                    <div class="w-8 h-8 rounded-lg bg-green-600 flex justify-center items-center">
+                        <i class="fas fa-circle-check text-white text-base"></i>
                     </div>
                 </div>
+                <div class="text-2xl text-primary mt-1 font-bold">
+                    {{ $totalKembali }}
+                </div>
             </div>
-            <div class="col-xl-3 col-sm-6">
-                <div class="card">
-                    <div class="card-body p-3">
-                        <div class="row">
-                            <div class="col-8">
-                                <div class="numbers">
-                                    <p class="text-sm mb-0 text-capitalize font-weight-bold">User Terblokir</p>
-                                    <h5 class="font-weight-bolder mb-0">
-                                        {{ $totalUserBlokir }}
-                                    </h5>
-                                </div>
-                            </div>
-                            <div class="col-4 text-end">
-                                <div class="icon icon-shape bg-gradient-dark shadow text-center border-radius-md">
-                                    <i class="fas fa-ban text-lg opacity-10" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                        </div>
+            <div class="bg-white shadow-md p-4 rounded-xl geometric-shape hover:shadow-lg">
+                <div class="flex flex-row justify-between items-center space-y-0 pb-2">
+                    <h1 class="text-sm font-medium text-text">
+                        Total Terlambat
+                    </h1>
+                    <div class="w-8 h-8 rounded-lg bg-orange-600 flex justify-center items-center">
+                        <i class="fas fa-exclamation-triangle text-white text-base"></i>
                     </div>
+                </div>
+                <div class="text-2xl text-primary mt-1 font-bold">
+                    {{ $totalTerlambat }}
+                </div>
+            </div>
+            <div class="bg-white shadow-md p-4 rounded-xl geometric-shape hover:shadow-lg">
+                <div class="flex flex-row justify-between items-center space-y-0 pb-2">
+                    <h1 class="text-sm font-medium text-text">
+                        Pengguna Diblokir
+                    </h1>
+                    <div class="w-8 h-8 rounded-lg bg-red-600 flex justify-center items-center">
+                        <i class="fas fa-circle-xmark text-white text-base"></i>
+                    </div>
+                </div>
+                <div class="text-2xl text-primary mt-1 font-bold">
+                    {{ $totalUserBlokir }}
                 </div>
             </div>
         </div>
 
         <!-- QR Scanner Button -->
-        <div class="row mb-3">
-            <div class="col-12">
-                <button type="button" class="btn btn-primary" onclick="openQRScanner()">
-                    <i class="fas fa-qrcode me-2"></i>Scan QR Code Pengembalian
-                </button>
-            </div>
+        <div class="mb-6">
+            <button type="button" id="btnScanQR"
+                class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-sm transition-colors duration-200">
+                <i class="fas fa-qrcode mr-2"></i>Scan QR Code Pengembalian
+            </button>
         </div>
 
         <!-- Tabs -->
-        <ul class="nav nav-tabs mb-3" id="pengembalianTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="menunggu-tab" data-bs-toggle="tab" data-bs-target="#menunggu"
-                    type="button">
-                    Menunggu Pengembalian ({{ $peminjamanDiambil->count() }})
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="selesai-tab" data-bs-toggle="tab" data-bs-target="#selesai" type="button">
-                    History ({{ $peminjamanDikembalikan->count() }})
-                </button>
-            </li>
-        </ul>
+        <div class="border-b border-gray-200 mb-6">
+            <ul class="flex flex-wrap -mb-px" id="pengembalianTab" role="tablist">
+                <li class="mr-2" role="presentation">
+                    <button
+                        class="inline-block p-4 border-b-2 border-blue-600 text-blue-600 font-semibold tab-button active"
+                        id="menunggu-tab" data-tab="menunggu" type="button">
+                        Menunggu Pengembalian ({{ $peminjamanDiambil->count() }})
+                    </button>
+                </li>
+                <li class="mr-2" role="presentation">
+                    <button
+                        class="inline-block p-4 border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 font-semibold tab-button"
+                        id="selesai-tab" data-tab="selesai" type="button">
+                        History ({{ $peminjamanDikembalikan->count() }})
+                    </button>
+                </li>
+            </ul>
+        </div>
 
         <!-- Tab Content -->
-        <div class="tab-content" id="pengembalianTabContent">
+        <div id="pengembalianTabContent">
             <!-- Tab Menunggu Pengembalian -->
-            <div class="tab-pane fade show active" id="menunggu" role="tabpanel">
-                <div class="card">
-                    <div class="card-header pb-0">
-                        <h6>Daftar Peminjaman Menunggu Pengembalian</h6>
+            <div class="tab-content" id="menunggu" role="tabpanel">
+                <div class="bg-white rounded-lg shadow-sm">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h6 class="text-lg font-semibold text-gray-900">Daftar Peminjaman Menunggu Pengembalian</h6>
                     </div>
-                    <div class="card-body px-0 pt-0 pb-2">
-                        <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0">
-                                <thead>
+                    <div class="overflow-x-auto">
+                        <div class="inline-block min-w-full align-middle">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
                                     <tr>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                                             No</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                                             Kode</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                                             Peminjam</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                                             Tanggal Pinjam</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                                             Tanggal Rencana Kembali</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                                             Status Keterlambatan</th>
                                         <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
+                                            class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase tracking-wider">
                                             Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="bg-white divide-y divide-gray-200">
                                     @forelse($peminjamanDiambil as $peminjaman)
                                         @php
                                             $isLate = now()->greaterThan($peminjaman->tanggal_pengembalian_rencana);
@@ -150,53 +128,56 @@
                                                 ? now()->diffInDays($peminjaman->tanggal_pengembalian_rencana)
                                                 : 0;
                                         @endphp
-                                        <tr>
-                                            <td>
-                                                <p class="text-xs font-weight-bold mb-0 ms-3">{{ $loop->iteration }}</p>
+                                        <tr class="hover:bg-gray-50 transition-colors">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <p class="text-sm font-semibold text-gray-900">{{ $loop->iteration }}
+                                                </p>
                                             </td>
-                                            <td>
-                                                <p class="text-xs font-weight-bold mb-0">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <p class="text-sm font-semibold text-gray-900">
                                                     {{ $peminjaman->kode_peminjaman }}</p>
                                             </td>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex flex-column justify-content-center">
-                                                        <h6 class="mb-0 text-sm">
-                                                            {{ $peminjaman->peminjam->nama_lengkap ?? $peminjaman->peminjam->nama_lengkap }}
-                                                        </h6>
-                                                        <p class="text-xs text-secondary mb-0">
-                                                            {{ $peminjaman->peminjam->email }}</p>
-                                                    </div>
+                                            <td class="px-6 py-4">
+                                                <div class="flex flex-col">
+                                                    <h6 class="text-sm font-semibold text-gray-900">
+                                                        {{ $peminjaman->peminjam->nama_lengkap ?? $peminjaman->peminjam->name }}
+                                                    </h6>
+                                                    <p class="text-xs text-gray-500">
+                                                        {{ $peminjaman->peminjam->email }}</p>
                                                 </div>
                                             </td>
-                                            <td>
-                                                <p class="text-xs font-weight-bold mb-0">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <p class="text-sm font-semibold text-gray-900">
                                                     {{ $peminjaman->tanggal_pengajuan->format('d/m/Y') }}</p>
                                             </td>
-                                            <td>
-                                                <p class="text-xs font-weight-bold mb-0">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <p class="text-sm font-semibold text-gray-900">
                                                     {{ $peminjaman->tanggal_pengembalian_rencana->format('d/m/Y') }}
                                                 </p>
                                             </td>
-                                            <td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
                                                 @if ($isLate)
-                                                    <span class="badge badge-sm bg-gradient-danger">Terlambat
+                                                    <span
+                                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gradient-to-r from-red-500 to-red-600 text-white">Terlambat
                                                         {{ $daysLate }} hari</span>
                                                 @else
-                                                    <span class="badge badge-sm bg-gradient-success">Tepat Waktu</span>
+                                                    <span
+                                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gradient-to-r from-green-500 to-green-600 text-white">Tepat
+                                                        Waktu</span>
                                                 @endif
                                             </td>
-                                            <td class="text-center">
+                                            <td class="px-6 py-4 whitespace-nowrap text-center">
                                                 <a href="{{ route('petugas.approve-pengembalian.show', $peminjaman->peminjaman_id) }}"
-                                                    class="btn btn-sm btn-info mb-0" title="Detail">
+                                                    class="inline-flex items-center justify-center px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors duration-200"
+                                                    title="Detail">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
                                             </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="7" class="text-center">
-                                                <p class="text-xs text-secondary mb-0 py-3">Tidak ada peminjaman yang
+                                            <td colspan="7" class="px-6 py-8 text-center">
+                                                <p class="text-sm text-gray-500">Tidak ada peminjaman yang
                                                     menunggu pengembalian</p>
                                             </td>
                                         </tr>
@@ -209,88 +190,108 @@
             </div>
 
             <!-- Tab History -->
-            <div class="tab-pane fade" id="selesai" role="tabpanel">
-                <div class="card">
-                    <div class="card-header pb-0">
-                        <h6>History Pengembalian</h6>
+            <div class="tab-content hidden" id="selesai" role="tabpanel">
+                <div class="bg-white rounded-lg shadow-sm">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h6 class="text-lg font-semibold text-gray-900">History Pengembalian</h6>
                     </div>
-                    <div class="card-body px-0 pt-0 pb-2">
-                        <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0">
-                                <thead>
+                    <div class="overflow-x-auto">
+                        <div class="inline-block min-w-full align-middle">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
                                     <tr>
                                         <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                                             No</th>
                                         <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                                             Kode</th>
                                         <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                                             Peminjam</th>
                                         <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                                             Tanggal Kembali</th>
                                         <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                                             Kondisi</th>
                                         <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                                             Status</th>
+                                        <th
+                                            class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase tracking-wider">
+                                            Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="bg-white divide-y divide-gray-200">
                                     @forelse($peminjamanDikembalikan as $peminjaman)
-                                        <tr>
-                                            <td>
-                                                <p class="text-xs font-weight-bold mb-0 ms-3">{{ $loop->iteration }}
+                                        <tr class="hover:bg-gray-50 transition-colors">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <p class="text-sm font-semibold text-gray-900">{{ $loop->iteration }}
                                                 </p>
                                             </td>
-                                            <td>
-                                                <p class="text-xs font-weight-bold mb-0">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <p class="text-sm font-semibold text-gray-900">
                                                     {{ $peminjaman->kode_peminjaman }}</p>
                                             </td>
-                                            <td>
-                                                <p class="text-xs font-weight-bold mb-0">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <p class="text-sm font-semibold text-gray-900">
                                                     {{ $peminjaman->peminjam->nama_lengkap ?? $peminjaman->peminjam->name }}
                                                 </p>
                                             </td>
-                                            <td>
-                                                <p class="text-xs font-weight-bold mb-0">
-                                                    {{ $peminjaman->pengembalian?->tanggal_kembali_sebenarnya?->format('d/m/Y H:i') ?? '-' }}
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <p class="text-sm font-semibold text-gray-900">
+                                                    {{ $peminjaman->pengembalian?->tanggal_pengembalian_sebenarnya?->format('d/m/Y H:i') ?? '-' }}
                                                 </p>
                                             </td>
-                                            <td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
                                                 @if ($peminjaman->pengembalian)
                                                     @php
-                                                        $kondisi = $peminjaman->pengembalian->kondisi->value;
+                                                        $kondisi = is_object($peminjaman->pengembalian->kondisi)
+                                                            ? $peminjaman->pengembalian->kondisi->value
+                                                            : $peminjaman->pengembalian->kondisi;
                                                         $badgeClass = match ($kondisi) {
-                                                            'baik' => 'bg-gradient-success',
-                                                            'rusak_ringan' => 'bg-gradient-warning',
-                                                            'rusak_berat' => 'bg-gradient-danger',
-                                                            'hilang' => 'bg-gradient-dark',
+                                                            'baik' => 'from-green-500 to-green-600',
+                                                            'rusak' => 'from-red-500 to-red-600',
+                                                            'tidak_lengkap' => 'from-orange-500 to-orange-600',
+                                                            'hilang' => 'from-gray-600 to-gray-800',
+                                                            default => 'from-gray-400 to-gray-600',
                                                         };
                                                     @endphp
-                                                    <span class="badge badge-sm {{ $badgeClass }}">
+                                                    <span
+                                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gradient-to-r {{ $badgeClass }} text-white">
                                                         {{ ucwords(str_replace('_', ' ', $kondisi)) }}
                                                     </span>
                                                 @else
                                                     -
                                                 @endif
                                             </td>
-                                            <td>
-                                                @if ($peminjaman->status === App\Enums\StatusPeminjaman::KEMBALI)
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                @php
+                                                    $statusValue = is_object($peminjaman->status)
+                                                        ? $peminjaman->status->value
+                                                        : $peminjaman->status;
+                                                @endphp
+                                                @if ($statusValue === 'kembali')
                                                     <span
-                                                        class="badge badge-sm bg-gradient-success">Dikembalikan</span>
-                                                @elseif($peminjaman->status === App\Enums\StatusPeminjaman::TERLAMBAT)
-                                                    <span class="badge badge-sm bg-gradient-danger">Terlambat</span>
+                                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gradient-to-r from-green-500 to-green-600 text-white">Dikembalikan</span>
+                                                @elseif($statusValue === 'terlambat')
+                                                    <span
+                                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gradient-to-r from-red-500 to-red-600 text-white">Terlambat</span>
                                                 @endif
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                                <a href="{{ route('petugas.approve-pengembalian.show', $peminjaman->peminjaman_id) }}"
+                                                    class="inline-flex items-center justify-center px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors duration-200"
+                                                    title="Detail">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="6" class="text-center">
-                                                <p class="text-xs text-secondary mb-0 py-3">Belum ada history
+                                            <td colspan="7" class="px-6 py-8 text-center">
+                                                <p class="text-sm text-gray-500">Belum ada history
                                                     pengembalian</p>
                                             </td>
                                         </tr>
@@ -305,61 +306,106 @@
     </div>
 
     <!-- QR Scanner Modal -->
-    <div class="modal fade" id="qrScannerModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content" style="max-height: 90vh; display: flex; flex-direction: column;">
-                <div class="modal-header" style="flex-shrink: 0;">
-                    <h5 class="modal-title">Scan QR Code Pengembalian</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" style="flex: 1; overflow-y: auto;">
-                    <div id="qr-reader" style="width: 100%;"></div>
-                    <div id="qr-reader-results" class="mt-3"></div>
+    <div class="hidden fixed inset-0" id="qrScannerModal" tabindex="-1" aria-hidden="true"
+        style="z-index: 99999 !important;">
+        <!-- Background overlay -->
+        <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
+
+        <!-- Modal content wrapper -->
+        <div class="fixed inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+                <div
+                    class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full relative z-10">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="flex items-center justify-between pb-3 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900" id="modal-title">Scan QR Code Pengembalian
+                            </h3>
+                            <button type="button" class="text-gray-400 hover:text-gray-500" data-bs-dismiss="modal"
+                                aria-label="Close">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="mt-4">
+                            <div id="qr-reader" class="w-full"></div>
+                            <div id="qr-reader-results" class="mt-3"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Confirmation Modal untuk Pengembalian -->
-    <div class="modal fade" id="returnConfirmModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form id="returnForm">
-                    @csrf
-                    <input type="hidden" name="peminjaman_id" id="return_peminjaman_id">
+    <div class="hidden fixed inset-0" id="returnConfirmModal" tabindex="-1" aria-hidden="true"
+        style="z-index: 99999">
+        <!-- Background overlay -->
+        <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
 
-                    <div class="modal-header">
-                        <h5 class="modal-title">Konfirmasi Pengembalian</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div id="returnDetailsContent">
-                            <!-- Content will be filled by JavaScript -->
+        <!-- Modal content wrapper -->
+        <div class="fixed inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+                <div
+                    class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full relative z-10">
+                    <form id="returnForm">
+                        @csrf
+                        <input type="hidden" name="peminjaman_id" id="return_peminjaman_id">
+
+                        <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
+                            <div class="flex items-center justify-between pb-3 border-b border-gray-200 mb-4">
+                                <h3 class="text-lg font-semibold text-gray-900">Konfirmasi Pengembalian</h3>
+                                <button type="button" class="text-gray-400 hover:text-gray-500"
+                                    data-bs-dismiss="modal" aria-label="Close">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+
+                            <div id="returnDetailsContent" class="mb-4">
+                                <!-- Content will be filled by JavaScript -->
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="kondisi" class="block text-sm font-medium text-gray-700 mb-2">Kondisi
+                                    Alat <span class="text-red-600">*</span></label>
+                                <select
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    id="kondisi" name="kondisi" required>
+                                    <option value="">Pilih Kondisi</option>
+                                    <option value="baik">Baik</option>
+                                    <option value="rusak">Rusak</option>
+                                    <option value="tidak_lengkap">Tidak Lengkap</option>
+                                    <option value="hilang">Hilang</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="catatan" class="block text-sm font-medium text-gray-700 mb-2">Catatan
+                                    <span id="catatanRequired" class="text-red-600 hidden">*</span>
+                                    <span id="catatanOptional" class="text-gray-500 text-xs">(opsional jika kondisi
+                                        baik)</span>
+                                </label>
+                                <textarea
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    id="catatan" name="catatan" rows="3" placeholder="Tambahkan catatan jika diperlukan..."></textarea>
+                                <p id="catatanHelp" class="text-xs text-gray-500 mt-1 hidden">Catatan wajib diisi jika
+                                    kondisi alat bukan "Baik"</p>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="kondisi">Kondisi Alat <span class="text-danger">*</span></label>
-                            <select class="form-control" id="kondisi" name="kondisi" required>
-                                <option value="">Pilih Kondisi</option>
-                                <option value="baik">Baik</option>
-                                <option value="rusak_ringan">Rusak Ringan</option>
-                                <option value="rusak_berat">Rusak Berat</option>
-                                <option value="hilang">Hilang</option>
-                            </select>
+                        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse gap-2">
+                            <button type="submit"
+                                class="w-full inline-flex justify-center rounded-lg border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm transition-colors duration-200">
+                                Proses Pengembalian
+                            </button>
+                            <button type="button"
+                                class="mt-3 w-full inline-flex justify-center rounded-lg border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm transition-colors duration-200"
+                                data-bs-dismiss="modal">
+                                Batal
+                            </button>
                         </div>
-
-                        <div class="form-group">
-                            <label for="catatan">Catatan</label>
-                            <textarea class="form-control" id="catatan" name="catatan" rows="3"
-                                placeholder="Tambahkan catatan jika diperlukan..."></textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Proses Pengembalian</button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -368,219 +414,16 @@
         <!-- Include html5-qrcode library -->
         <script src="https://unpkg.com/html5-qrcode"></script>
 
+        <!-- Setup routes for external JS -->
         <script>
-            let html5QrcodeScanner = null;
-            let isScanning = false;
-            let currentPeminjamanData = null;
-
-            function openQRScanner() {
-                const modal = new bootstrap.Modal(document.getElementById('qrScannerModal'));
-                modal.show();
-
-                if (!isScanning) {
-                    startScanner();
-                }
-            }
-
-            function startScanner() {
-                if (isScanning) return;
-
-                isScanning = true;
-                html5QrcodeScanner = new Html5QrcodeScanner(
-                    "qr-reader", {
-                        fps: 10,
-                        qrbox: 250,
-                        rememberLastUsedCamera: true
-                    },
-                    false
-                );
-
-                html5QrcodeScanner.render(onScanSuccess, onScanError);
-            }
-
-            function onScanSuccess(decodedText, decodedResult) {
-                console.log(`QR Code detected: ${decodedText}`);
-
-                // Pause scanner sementara proses
-                if (html5QrcodeScanner && isScanning) {
-                    try {
-                        html5QrcodeScanner.pause();
-                    } catch (e) {
-                        console.log("Scanner pause error:", e);
-                    }
-                }
-
-                // Kirim ke backend untuk validasi
-                fetch("{{ route('petugas.pengembalian.scan-proses') }}", {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({
-                            qr_token: decodedText
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Close QR scanner modal
-                            const scannerModal = bootstrap.Modal.getInstance(document.getElementById('qrScannerModal'));
-                            scannerModal.hide();
-
-                            // Simpan data peminjaman
-                            currentPeminjamanData = data.data;
-
-                            // Show confirmation modal
-                            showReturnConfirmation(data.data);
-
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'QR Code Valid!',
-                                text: data.message,
-                                timer: 1500,
-                                showConfirmButton: false
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: data.message
-                            });
-
-                            // Resume scanner
-                            if (html5QrcodeScanner && isScanning) {
-                                try {
-                                    html5QrcodeScanner.resume();
-                                } catch (e) {
-                                    console.log("Scanner resume error:", e);
-                                }
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'Terjadi kesalahan saat memvalidasi QR Code'
-                        });
-
-                        // Resume scanner
-                        if (html5QrcodeScanner && isScanning) {
-                            try {
-                                html5QrcodeScanner.resume();
-                            } catch (e) {
-                                console.log("Scanner resume error:", e);
-                            }
-                        }
-                    });
-            }
-
-            function onScanError(error) {
-                // Silent error untuk menghindari spam console
-            }
-
-            function showReturnConfirmation(data) {
-                // Fill peminjaman data
-                document.getElementById('return_peminjaman_id').value = data.id;
-
-                // Build details HTML
-                let alatList = data.alat.map(item => `<li>${item.nama} (${item.jumlah} unit)</li>`).join('');
-
-                let lateWarning = '';
-                if (data.is_late) {
-                    lateWarning = `
-                    <div class="alert alert-danger" role="alert">
-                        <i class="fas fa-exclamation-triangle me-2"></i>
-                        <strong>PERHATIAN:</strong> Pengembalian ini terlambat ${Math.abs(data.days_late)} hari! 
-                        User akan diblokir otomatis.
-                    </div>
-                `;
-                }
-
-                let detailsHTML = `
-                <div class="mb-3">
-                    <p><strong>Kode Peminjaman:</strong> ${data.kode}</p>
-                    <p><strong>Peminjam:</strong> ${data.peminjam}</p>
-                    <p><strong>Tanggal Pinjam:</strong> ${data.tanggal_pinjam}</p>
-                    <p><strong>Tanggal Rencana Kembali:</strong> ${data.tanggal_rencana}</p>
-                    <p><strong>Alat yang Dipinjam:</strong></p>
-                    <ul>${alatList}</ul>
-                </div>
-                ${lateWarning}
-            `;
-
-                document.getElementById('returnDetailsContent').innerHTML = detailsHTML;
-
-                // Reset form
-                document.getElementById('kondisi').value = '';
-                document.getElementById('catatan').value = '';
-
-                // Show modal
-                const confirmModal = new bootstrap.Modal(document.getElementById('returnConfirmModal'));
-                confirmModal.show();
-            }
-
-            // Handle return form submission
-            document.getElementById('returnForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-
-                const formData = new FormData(this);
-                const data = Object.fromEntries(formData);
-
-                fetch("{{ route('petugas.pengembalian.proses') }}", {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify(data)
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            const confirmModal = bootstrap.Modal.getInstance(document.getElementById(
-                                'returnConfirmModal'));
-                            confirmModal.hide();
-
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Berhasil!',
-                                text: data.message,
-                                showConfirmButton: true
-                            }).then(() => {
-                                location.reload();
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: data.message
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'Terjadi kesalahan saat memproses pengembalian'
-                        });
-                    });
-            });
-
-            // Cleanup scanner when modal is closed
-            document.getElementById('qrScannerModal').addEventListener('hidden.bs.modal', function() {
-                if (html5QrcodeScanner && isScanning) {
-                    try {
-                        html5QrcodeScanner.clear();
-                        isScanning = false;
-                    } catch (e) {
-                        console.log("Scanner cleanup error:", e);
-                    }
-                }
-            });
+            window.appRoutes = {
+                scanProses: "{{ route('petugas.pengembalian.scan-proses') }}",
+                proses: "{{ route('petugas.pengembalian.proses') }}"
+            };
+            console.log('Routes configured:', window.appRoutes);
         </script>
+
+        <!-- Load external JS file -->
+        <script src="{{ asset('petugas/approval-pengembalian/index.js') }}"></script>
     @endpush
 </x-app-layout>
