@@ -9,7 +9,7 @@
                 <button type="button" id="open-modal"
                     class="flex items-center gap-4 text-white font-medium px-5 py-3 rounded-lg bg-success cursor-pointer">
                     <i class="fas fa-file-export"></i>
-                    Export Data Peminjaman
+                    Export Data Pengembalian
                 </button>
             </div>
         </div>
@@ -139,6 +139,11 @@
                                 </td>
                                 <td class="px-6 py-4 text-center">
                                     @php
+                                        // Convert enum to string value
+                                        $kondisiValue = is_object($pengembalian->kondisi)
+                                            ? $pengembalian->kondisi->value
+                                            : $pengembalian->kondisi;
+
                                         $kondisiConfig = [
                                             'baik' => [
                                                 'bg' => 'bg-green-50',
@@ -147,29 +152,29 @@
                                                 'icon' => 'fa-check-circle',
                                                 'label' => 'Baik',
                                             ],
-                                            'rusak_ringan' => [
+                                            'rusak' => [
                                                 'bg' => 'bg-orange-50',
                                                 'text' => 'text-orange-700',
                                                 'border' => 'border-orange-100',
                                                 'icon' => 'fa-exclamation-triangle',
-                                                'label' => 'Rusak Ringan',
+                                                'label' => 'Rusak',
                                             ],
-                                            'rusak_berat' => [
+                                            'tidak_lengkap' => [
+                                                'bg' => 'bg-yellow-50',
+                                                'text' => 'text-yellow-700',
+                                                'border' => 'border-yellow-100',
+                                                'icon' => 'fa-box-open',
+                                                'label' => 'Tidak Lengkap',
+                                            ],
+                                            'hilang' => [
                                                 'bg' => 'bg-red-50',
                                                 'text' => 'text-red-700',
                                                 'border' => 'border-red-100',
-                                                'icon' => 'fa-times-circle',
-                                                'label' => 'Rusak Berat',
-                                            ],
-                                            'hilang' => [
-                                                'bg' => 'bg-gray-800',
-                                                'text' => 'text-white',
-                                                'border' => 'border-gray-800',
                                                 'icon' => 'fa-ban',
                                                 'label' => 'Hilang',
                                             ],
                                         ];
-                                        $kondisi = $kondisiConfig[$pengembalian->kondisi] ?? $kondisiConfig['baik'];
+                                        $kondisi = $kondisiConfig[$kondisiValue] ?? $kondisiConfig['baik'];
                                     @endphp
                                     <span
                                         class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-xs font-medium {{ $kondisi['bg'] }} {{ $kondisi['text'] }} border {{ $kondisi['border'] }}">

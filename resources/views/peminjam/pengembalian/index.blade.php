@@ -274,6 +274,11 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         @php
+                                            // Convert enum to string value
+                                            $kondisiValue = is_object($pengembalian->kondisi)
+                                                ? $pengembalian->kondisi->value
+                                                : $pengembalian->kondisi;
+
                                             $kondisiConfig = [
                                                 'baik' => [
                                                     'bg' => 'bg-green-100',
@@ -300,7 +305,7 @@
                                                     'label' => 'Hilang',
                                                 ],
                                             ];
-                                            $kondisi = $kondisiConfig[$pengembalian->kondisi] ?? $kondisiConfig['baik'];
+                                            $kondisi = $kondisiConfig[$kondisiValue] ?? $kondisiConfig['baik'];
                                         @endphp
                                         <span
                                             class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium {{ $kondisi['bg'] }} {{ $kondisi['text'] }}">
